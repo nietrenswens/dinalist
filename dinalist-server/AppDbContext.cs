@@ -9,5 +9,6 @@ public class AppDbContext : DbContext
 
     public DbSet<User> Users { get; set; }
     public DbSet<DiningRoom> DiningRooms { get; set; }
+    public DbSet<Token> Tokens { get; set; }
 
 }

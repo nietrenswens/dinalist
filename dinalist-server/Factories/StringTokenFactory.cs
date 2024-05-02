@@ -4,6 +4,6 @@ public class StringTokenFactory : ITokenFactory<string>
     {
         Guid guid = Guid.NewGuid();
         string token = $"{user.Id}.{guid}.{DateTime.UtcNow.ToString()}";
-        return new Token() { Value = token, User = user};
+        return new Token(token, user, DateTime.UtcNow.AddDays(4), false);
     }
 }
