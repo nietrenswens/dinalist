@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Login from "./Components/Login/Login";
+import Dashboard from "./Components/Dashboard/Dashboard";
 
 async function checkToken(token: string) {
   const API_HOST: string = process.env.REACT_APP_API_URL || "";
@@ -37,7 +38,7 @@ function App() {
     if (isLoggedIn) {
       return (
         <div className="h-screen">
-          <h1>Logged in</h1>
+          <Dashboard />
         </div>
       );
     }
