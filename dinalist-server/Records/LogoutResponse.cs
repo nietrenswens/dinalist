@@ -1,0 +1,1 @@
+public record LogoutResponse(string Token);
