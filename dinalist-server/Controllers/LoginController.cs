@@ -20,4 +20,11 @@ public class LoginController : ControllerBase
         return Ok(response);
     }
 
+    [HttpPost("istokenvalid")]
+    public ActionResult<TokenVerificationResponse> VerifyToken([FromBody] TokenRequest request)
+    {
+        bool isValid = _loginService.IsTokenValid(request);
+        return Ok(new TokenVerificationResponse(isValid));
+    }
+
 }

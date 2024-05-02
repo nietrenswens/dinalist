@@ -1,0 +1,1 @@
+public record TokenVerificationResponse(bool IsValid);
