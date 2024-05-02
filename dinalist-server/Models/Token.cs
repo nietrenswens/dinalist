@@ -10,15 +10,6 @@ public class Token : IToken<string>
     public Guid UserId { get; set; }
     public DateTime ExpirationDate { get; set; } = DateTime.UtcNow.AddDays(4);
     public bool IsRevoked { get; set; } = false;
-    
-    public Token(string value, User user, DateTime expirationDate, bool isRevoked)
-    {
-        Value = value;
-        User = user;
-        UserId = user.Id;
-        ExpirationDate = expirationDate;
-        IsRevoked = isRevoked;
-    }
 
     public override string ToString()
     {

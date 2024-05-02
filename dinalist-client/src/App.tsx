@@ -1,48 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Login from "./Components/Login/Login";
 
-function checkToken(token: string) {
+async function checkToken(token: string) {
   const API_HOST: string = process.env.REACT_APP_API_URL || "";
-  fetch(API_HOST + "/api/login/istokenvalid", {
+  const response = await fetch(API_HOST + "/api/login/istokenvalid", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ token }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (!data.isvalid) {
-        return false;
-      }
-      return true;
-    }).catch((err) => {
-      console.error(err);
-    });
-  return false;
+  });
+  const data = await response.json();
+  if (!data) return false;
+  return data.isValid;
 }
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const token = localStorage.getItem("token");
-  if (token !== null) {
-    if (!checkToken(token))
-    {
-      localStorage.removeItem("token");
-      localStorage.removeItem("id");
-      window.location.href = "/";
-      return;
+
+  useEffect(() => {
+    const validateToken = async () => {
+      if (token !== null) {
+        const isTokenValid = await checkToken(token);
+        setIsLoggedIn(isTokenValid);
+        if (!isTokenValid) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("id");
+          window.location.href = "/";
+        }
+      }
+    };
+    validateToken();
+  }, [token]);
+
+    if (isLoggedIn) {
+      return (
+        <div className="h-screen">
+          <h1>Logged in</h1>
+        </div>
+      );
     }
     return (
       <div className="h-screen">
-        <h1>Logged in</h1>
+        <Login />
       </div>
     );
-  }
-  return (
-    <div className="h-screen">
-      <Login />
-    </div>
-  );
 }
 
 export default App;
